@@ -1,0 +1,169 @@
+{
+  "name": "token-styler",
+  "displayName": "Token Styler",
+  "description": "Style all occurrences of a token with a custom color, like Notepad++ Style Token",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/david220wang385/token-styler"
+  },
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "highlight",
+    "token",
+    "style",
+    "color",
+    "notepad++"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tokenStyler.styleToken",
+        "title": "Style Token"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor1",
+        "title": "Style Token: Style 1 (Yellow)"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor2",
+        "title": "Style Token: Style 2 (Cyan)"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor3",
+        "title": "Style Token: Style 3 (Green)"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor4",
+        "title": "Style Token: Style 4 (Magenta)"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor5",
+        "title": "Style Token: Style 5 (Red)"
+      },
+      {
+        "command": "tokenStyler.styleTokenCustomColor",
+        "title": "Style Token: Custom Color..."
+      },
+      {
+        "command": "tokenStyler.clearTokenStyle",
+        "title": "Clear Token Style"
+      },
+      {
+        "command": "tokenStyler.clearAllStyles",
+        "title": "Clear All Token Styles"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "tokenStyler.styleMenu",
+          "group": "1_modification@99",
+          "when": "editorHasSelection || editorTextFocus"
+        }
+      ],
+      "tokenStyler.styleMenu": [
+        {
+          "command": "tokenStyler.styleTokenWithColor1",
+          "group": "1_presets@1"
+        },
+        {
+          "command": "tokenStyler.styleTokenWithColor2",
+          "group": "1_presets@2"
+        },
+        {
+          "command": "tokenStyler.styleTokenWithColor3",
+          "group": "1_presets@3"
+        },
+        {
+          "command": "tokenStyler.styleTokenWithColor4",
+          "group": "1_presets@4"
+        },
+        {
+          "command": "tokenStyler.styleTokenWithColor5",
+          "group": "1_presets@5"
+        },
+        {
+          "command": "tokenStyler.styleTokenCustomColor",
+          "group": "2_custom@1"
+        },
+        {
+          "command": "tokenStyler.clearTokenStyle",
+          "group": "3_clear@1"
+        },
+        {
+          "command": "tokenStyler.clearAllStyles",
+          "group": "3_clear@2"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "tokenStyler.styleMenu",
+        "label": "Style Token"
+      }
+    ],
+    "configuration": {
+      "title": "Token Styler",
+      "properties": {
+        "tokenStyler.matchCase": {
+          "type": "boolean",
+          "default": true,
+          "description": "Match case when highlighting token occurrences"
+        },
+        "tokenStyler.matchWholeWord": {
+          "type": "boolean",
+          "default": false,
+          "description": "Match whole word only when highlighting token occurrences"
+        },
+        "tokenStyler.styles": {
+          "type": "array",
+          "default": [
+            {
+              "background": "#FFFF00",
+              "foreground": "#000000"
+            },
+            {
+              "background": "#00FFFF",
+              "foreground": "#000000"
+            },
+            {
+              "background": "#00FF00",
+              "foreground": "#000000"
+            },
+            {
+              "background": "#FF00FF",
+              "foreground": "#000000"
+            },
+            {
+              "background": "#FF6060",
+              "foreground": "#000000"
+            }
+          ],
+          "description": "Preset styles (background and optional foreground color)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {}
+}
