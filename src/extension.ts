@@ -47,19 +47,12 @@ export function activate(context: vscode.ExtensionContext) {
 
   // ── Command registrations ─────────────────────────────────────────────────
 
-  const presetCommands: [string, number][] = [
-    ['tokenStyler.styleTokenWithColor1', 0],
-    ['tokenStyler.styleTokenWithColor2', 1],
-    ['tokenStyler.styleTokenWithColor3', 2],
-    ['tokenStyler.styleTokenWithColor4', 3],
-    ['tokenStyler.styleTokenWithColor5', 4],
-  ];
-
-  presetCommands.forEach(([cmd, idx]) => {
+  for (let i = 0; i < 8; i++) {
+    const idx = i;
     context.subscriptions.push(
-      vscode.commands.registerCommand(cmd, () => styleWithPreset(idx))
+      vscode.commands.registerCommand(`tokenStyler.styleTokenWithColor${i + 1}`, () => styleWithPreset(idx))
     );
-  });
+  }
 
   context.subscriptions.push(
     vscode.commands.registerCommand('tokenStyler.styleTokenCustomColor', styleWithCustomColor),
@@ -89,15 +82,21 @@ function getToken(): string | undefined {
   return undefined;
 }
 
+const DEFAULT_PRESETS: PresetStyle[] = [
+  { background: '#00FFFF', foreground: '#000000' },
+  { background: '#FF8000', foreground: '#FFFFFF' },
+  { background: '#FFFF00', foreground: '#000000' },
+  { background: '#8000FF', foreground: '#FFFFFF' },
+  { background: '#008000', foreground: '#FFFFFF' },
+  { background: '#FF0080', foreground: '#000000' },
+  { background: '#4080FF', foreground: '#FFFFFF' },
+  { background: '#80FF00', foreground: '#000000' },
+];
+
 function getPresets(): PresetStyle[] {
   const config = vscode.workspace.getConfiguration('tokenStyler');
-  return config.get<PresetStyle[]>('styles') ?? [
-    { background: '#FFFF00', foreground: '#000000' },
-    { background: '#00FFFF', foreground: '#000000' },
-    { background: '#00FF00', foreground: '#000000' },
-    { background: '#FF00FF', foreground: '#000000' },
-    { background: '#FF6060', foreground: '#000000' },
-  ];
+  const styles = config.get<PresetStyle[]>('styles');
+  return styles?.length ? styles : DEFAULT_PRESETS;
 }
 
 function styleWithPreset(index: number) {
@@ -151,18 +150,18 @@ async function clearTokenStyle() {
     return;
   }
 
-  // Let the user pick which token to clear
+  const removeByToken = (name: string) => {
+    const idx = entries.findIndex(e => e.token === name);
+    if (idx === -1) { return false; }
+    entries[idx].decorationType.dispose();
+    entries.splice(idx, 1);
+    if (entries.length === 0) { docStyles.delete(key); }
+    return true;
+  };
+
+  // Try to auto-clear the token under cursor first
   const token = getToken();
-  if (token) {
-    // Try to auto-clear the token under cursor first
-    const idx = entries.findIndex(e => e.token === token);
-    if (idx !== -1) {
-      entries[idx].decorationType.dispose();
-      entries.splice(idx, 1);
-      if (entries.length === 0) { docStyles.delete(key); }
-      return;
-    }
-  }
+  if (token && removeByToken(token)) { return; }
 
   // Fallback: quick-pick
   const items = entries.map(e => ({
@@ -174,14 +173,7 @@ async function clearTokenStyle() {
     title: 'Token Styler: Clear Style',
     placeHolder: 'Select a token to remove its style'
   });
-  if (!picked) { return; }
-
-  const idx = entries.findIndex(e => e.token === picked.label);
-  if (idx !== -1) {
-    entries[idx].decorationType.dispose();
-    entries.splice(idx, 1);
-    if (entries.length === 0) { docStyles.delete(key); }
-  }
+  if (picked) { removeByToken(picked.label); }
 }
 
 function clearAllStyles() {
@@ -204,8 +196,7 @@ function applyStyle(token: string, background: string, foreground?: string) {
   if (!editor) { return; }
 
   const key = editor.document.uri.toString();
-  if (!docStyles.has(key)) { docStyles.set(key, []); }
-  const entries = docStyles.get(key)!;
+  const entries = docStyles.get(key) ?? docStyles.set(key, []).get(key)!;
 
   // If this token already has a style, remove the old one first
   const existing = entries.findIndex(e => e.token === token);

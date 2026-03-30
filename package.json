@@ -2,7 +2,7 @@
   "name": "token-styler",
   "displayName": "Token Styler",
   "description": "Style all occurrences of a token with a custom color, like Notepad++ Style Token",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -32,23 +32,35 @@
       },
       {
         "command": "tokenStyler.styleTokenWithColor1",
-        "title": "Style Token: Style 1 (Yellow)"
+        "title": "Style Token: Style 1"
       },
       {
         "command": "tokenStyler.styleTokenWithColor2",
-        "title": "Style Token: Style 2 (Cyan)"
+        "title": "Style Token: Style 2"
       },
       {
         "command": "tokenStyler.styleTokenWithColor3",
-        "title": "Style Token: Style 3 (Green)"
+        "title": "Style Token: Style 3"
       },
       {
         "command": "tokenStyler.styleTokenWithColor4",
-        "title": "Style Token: Style 4 (Magenta)"
+        "title": "Style Token: Style 4"
       },
       {
         "command": "tokenStyler.styleTokenWithColor5",
-        "title": "Style Token: Style 5 (Red)"
+        "title": "Style Token: Style 5"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor6",
+        "title": "Style Token: Style 6"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor7",
+        "title": "Style Token: Style 7"
+      },
+      {
+        "command": "tokenStyler.styleTokenWithColor8",
+        "title": "Style Token: Style 8"
       },
       {
         "command": "tokenStyler.styleTokenCustomColor",
@@ -93,6 +105,18 @@
           "group": "1_presets@5"
         },
         {
+          "command": "tokenStyler.styleTokenWithColor6",
+          "group": "1_presets@6"
+        },
+        {
+          "command": "tokenStyler.styleTokenWithColor7",
+          "group": "1_presets@7"
+        },
+        {
+          "command": "tokenStyler.styleTokenWithColor8",
+          "group": "1_presets@8"
+        },
+        {
           "command": "tokenStyler.styleTokenCustomColor",
           "group": "2_custom@1"
         },
@@ -127,28 +151,6 @@
         },
         "tokenStyler.styles": {
           "type": "array",
-          "default": [
-            {
-              "background": "#FFFF00",
-              "foreground": "#000000"
-            },
-            {
-              "background": "#00FFFF",
-              "foreground": "#000000"
-            },
-            {
-              "background": "#00FF00",
-              "foreground": "#000000"
-            },
-            {
-              "background": "#FF00FF",
-              "foreground": "#000000"
-            },
-            {
-              "background": "#FF6060",
-              "foreground": "#000000"
-            }
-          ],
           "description": "Preset styles (background and optional foreground color)"
         }
       }
