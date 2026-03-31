@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/david220wang385/token-styler"
   },
-  "publisher": "your-publisher-name",
+  "publisher": "david220wang385",
   "engines": {
     "vscode": "^1.74.0"
   },
